@@ -137,6 +137,15 @@ module MCollective
         logs
       end
 
+      # loads the report file and returns the status of the last run
+      def last_status
+        if File.exists?(Puppet[:lastrunreport])
+          report = YAML.load_file(Puppet[:lastrunreport]) if File.exists?(Puppet[:lastrunreport])
+          status = report.status
+        end
+        status
+      end
+
       # covert seconds to human readable string
       def seconds_to_human(seconds)
         days = seconds / 86400
@@ -171,6 +180,7 @@ module MCollective
                   :enabled => enabled?,
                   :daemon_present => daemon_present?,
                   :lastrun => the_last_run,
+                  :status_lastrun => last_status,
                   :idling => idling?,
                   :disable_message => lock_message,
                   :since_lastrun => (Time.now.to_i - the_last_run)}

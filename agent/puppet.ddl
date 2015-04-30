@@ -2,7 +2,7 @@ metadata :name => "puppet",
          :description => "Run Puppet agent, get its status, and enable/disable it",
          :author => "R.I.Pienaar <rip@devco.net>",
          :license => "ASL2.0",
-         :version => "1.10.0",
+         :version => "1.10.1",
          :url => "http://puppetlabs.com",
          :timeout => 20
 
@@ -128,6 +128,11 @@ action "last_run_summary", :description => "Get the summary of the last Puppet r
     output :lastrun,
            :description => "When the Agent last applied a catalog in local time",
            :display_as  => "Last Run",
+           :default     => nil
+
+    output :laststatus,
+           :description => "Status of the last puppet run",
+           :display_as  => "Status Last Run",
            :default     => 0
 
     output :since_lastrun,
@@ -157,6 +162,16 @@ action "last_run_summary", :description => "Get the summary of the last Puppet r
     end
 end
 
+
+action "status_last_run", :description => "Get the  status of the last Puppet agent" do
+    display :always
+
+    output :laststatus,
+           :description => "What was the status of the last run",
+           :display_as  => "Status Last Run",
+           :default     => nil
+end
+
 action "status", :description => "Get the current status of the Puppet agent" do
     display :always
 
@@ -182,6 +197,11 @@ action "status", :description => "Get the current status of the Puppet agent" do
     output :lastrun,
            :description => "When the Agent last applied a catalog in local time",
            :display_as  => "Last Run",
+           :default     => 0
+
+    output :status_lastrun,
+           :description => "What was the status of the last run",
+           :display_as  => "Status Last Run",
            :default     => 0
 
     output :since_lastrun,
